@@ -2,11 +2,16 @@ require('dotenv').config();
 
 const express=require('express')
 const cors=require('cors')
+const bodyParser=require('body-parser')
+const userRouter=require('../src/routes/userRoute')
 
 const app=express();
 
-
+app.use(express.json())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:true}))
 app.use(cors())
+app.use('/api/v1/user', userRouter)
 
 // error handling 
 app.use((err, req,res, next)=>
