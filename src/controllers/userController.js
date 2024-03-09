@@ -4,6 +4,8 @@ const bcrypt=require('bcryptjs')
 
 
 const db=require('../config/conn')
+const randomString=require('randomstring')
+const  sendMail=require('../helpers/sendMail')
 
 const register=(req,res)=>
 {
@@ -45,6 +47,20 @@ const register=(req,res)=>
                                 msg:err
                             }); 
                         }
+                            let mailSubject='mail verification';
+                            const randomToken=randomString.generate();
+                            let content=`<p> Hii ${req.body.name}, Please <a href="http://127.0.0.1:3000/api/v1/users/mail-verification?token=${randomToken}">verify</a>`;
+                            sendMail(req.body.email, mailSubject,content);
+                            db.query('UPDATE users set token=? where email=?',[randomToken,req.body.email],function(err,result)
+                            {
+                                if(err)
+                                {
+                                    return res.status(400).send({
+                                        msg:err
+                                    }); 
+                                }
+                            });
+
                         return res.status(500).send({
                             msg:'User has been register'
                         })
