@@ -157,7 +157,7 @@ const login=(req,res)=>
 
 const getUser=(req,res)=>
 {
-    //const authToken=req.header.authorization.split(' ')[1];
+    
     const authToken = req.headers.authorization.split(' ')[1];
 
    const decode= jwt.verify(authToken,JWT_SECRET);

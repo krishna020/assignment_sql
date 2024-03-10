@@ -2,6 +2,7 @@ const express=require('express')
 const router=express.Router();
 const path=require('path')
 const multer=require('multer')
+const {isAuthorise}=require('../middlewares/auth')
 
 const storage=multer.diskStorage({
 
@@ -32,6 +33,6 @@ const {register,login,getUser}=require('../controllers/userController')
 router.post('/register', upload.single('profilePic'), signUpValidation, register);
 router.post('/login', loginValidation,login)
 
-router.get('/get-users',getUser)
+router.get('/get-users',isAuthorise,getUser)
 
 module.exports=router;
