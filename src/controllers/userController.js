@@ -155,8 +155,24 @@ const login=(req,res)=>
     )
 }
 
+const getUser=(req,res)=>
+{
+    //const authToken=req.header.authorization.split(' ')[1];
+    const authToken = req.headers.authorization.split(' ')[1];
+
+   const decode= jwt.verify(authToken,JWT_SECRET);
+   db.query(
+    `SELECT * FROM users where id=?`,decode.id,function(error,result,fields)
+    {
+        if(error) throw error;
+        return res.status(200).send({success:true, data:result[0],message:'Fetch data successfully'})
+    }
+   )
+}
+
 module.exports={
     register,
     verifyMail,
-    login
+    login,
+    getUser
 }
