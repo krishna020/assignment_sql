@@ -170,9 +170,45 @@ const getUser=(req,res)=>
    )
 }
 
+const forgetPassword=(req,res)=>
+{
+    const errors=validationResult(req)  
+    if(!errors.isEmpty())
+    {
+       return res.status(400).json({errors:errors.array()})
+    }
+    var email=req.body.email
+    db.query(
+        `SELECT * FROM users WHERE email=? limit 1`,email,function(error,result,fields)
+        {
+            if(error)
+            {
+                return res.status(400).json({message:error}) 
+            }
+            if(result.length>0)
+            {
+                let mailSubject='forget password';
+                const randomstring=randomString.generate();
+                const content='<p> Hii, '+result[0].name+'\
+                please  <a href="http://127.0.0.1:3000/api/v1/users/reset-password?token='+randomstring+'"> Please click for reset your password</a></p>\
+                ';
+                sendMail(email,mailSubject,content)
+                db.query(
+                    `INSERT INTO password_resets (email,token) VALUES(${db.escape(result[0].email)},'${randomString}')`
+                );
+            }
+            return res.status(200).send({
+                message:"Mail send successfully for forget password"
+            })
+
+        }
+    )
+}
+
 module.exports={
     register,
     verifyMail,
     login,
-    getUser
+    getUser,
+    forgetPassword
 }

@@ -21,3 +21,8 @@ exports.loginValidation = [
     check('password', 'Password is required').isLength({ min: 6 }),
    
 ]
+
+exports.forgetValidation = [
+    check('email', 'Email is required').not().isEmpty().normalizeEmail({ gmail_remove_dots: true })
+   
+]
