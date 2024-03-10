@@ -35,10 +35,10 @@ const register=(req,res)=>
                 }
                 else{
                     db.query(`
-                    INSERT INTO users(name,email,password)
+                    INSERT INTO users(name,email,password,profilePic)
                     VALUES('${req.body.name}',${db.escape(
                        req.body.email
-                    )},${db.escape(hash)});`,
+                    )},${db.escape(hash)},'images/${req.file.filename}');`,
                     (err,result)=>
                     {
                         if(err)

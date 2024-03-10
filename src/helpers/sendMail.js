@@ -5,7 +5,8 @@ const sendMail= async(email, mailSubject, content)=>
 {
     try{
           const transport= nodeMailer.createTransport({
-            host:'smtp.gmail.com',
+           // host:'smtp.gmail.com',
+                service: 'gmail',
                 port:465,
                 secure: true, // true for 465, false for other ports
                 logger: true,
