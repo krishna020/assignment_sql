@@ -26,7 +26,7 @@ const upload=multer({
     fileFilter:fileFilter
 })
 
-const {signUpValidation, loginValidation, forgetValidation} =require('../helpers/validation')
+const {signUpValidation, loginValidation, forgetValidation,updateProfile} =require('../helpers/validation')
 const {register,login,getUser,forgetPassword}=require('../controllers/userController')
 
 //router.post('/register',upload.single('profilePic'),signUpValidation,userController)
@@ -35,5 +35,6 @@ router.post('/login', loginValidation,login)
 
 router.get('/get-users',isAuthorise,getUser)
 router.post('/reset-password',forgetValidation,forgetPassword)
+router.post('/update-profile'),upload.single('profilePic',updateProfile,isAuthorise,updateProfile);
 
 module.exports=router;

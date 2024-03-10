@@ -231,6 +231,50 @@ const resetPassword=(req,res)=>
      })
 }
 
+const updateProfile=async (req,res)=>
+{
+    try{
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+        const token=req.headers.authorization.split(' ')[1];
+       const decode= jwt.verify(token, JWT_SECRET)
+        var sql=''
+        var data;
+        if(req.file!=undefined)
+        {
+             sql='UPDATE users  SET name=? , profilePic = ? WHERE  id = ?' 
+             data=[req.body.name, req.body.email,'profilePic/'+req.file.filename,decode.id];
+        }
+        else{
+            sql='UPDATE users  SET name=? , profilePic = ? WHERE  id = ?' 
+            data=[req.body.name, req.body.email,decode.id];
+        }
+        db.query(sql,data, function(error,result,fields)
+        {
+            if(error)
+            {
+                res.status(400).send({
+                    msg:error
+                });
+            }
+
+            res.status(200).send({
+                msg:'profile update successfully'
+            });
+        })
+    }
+    catch(error)
+    {
+      return res.status(400).json({
+        msg:error.message
+      })
+    }
+   
+
+}
+
 module.exports = {
     register,
     verifyMail,
@@ -238,5 +282,6 @@ module.exports = {
     getUser,
     forgetPassword,
     resetPasswordLoad,
-    resetPassword
+    resetPassword,
+    updateProfile
 }
