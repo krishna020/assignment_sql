@@ -25,11 +25,11 @@ const upload=multer({
     fileFilter:fileFilter
 })
 
-const {signUpValidation} =require('../helpers/validation')
-const {register}=require('../controllers/userController')
+const {signUpValidation, loginValidation} =require('../helpers/validation')
+const {register,login}=require('../controllers/userController')
 
 //router.post('/register',upload.single('profilePic'),signUpValidation,userController)
 router.post('/register', upload.single('profilePic'), signUpValidation, register);
-
+router.post('/login', loginValidation,login)
 
 module.exports=router;

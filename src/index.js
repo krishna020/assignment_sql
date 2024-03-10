@@ -14,7 +14,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(cors())
 app.use('/api/v1/users', userRouter)
-app.use('/api/v1/users', webRouter)
+app.use('/api/v1/users/login_user', webRouter)
 // error handling 
 app.use((err, req,res, next)=>
 {
