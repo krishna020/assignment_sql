@@ -73,4 +73,29 @@ const register=(req,res)=>
      );
 }
 
-module.exports=register
+const verifyMail= (req,res)=>
+{
+   var token=req.query.token;
+   db.query('SELECT * FROM users token=? limit 1',token, function(error,result,fields)
+   {
+    if(error)
+    {
+        console.log(error.message);
+    }
+    if(result.length>0)
+    {
+      db.query(`
+      UPDATE users SET token = null, is_verified =1 WHERE id='${result[0].id}'
+      `)
+      return res.render('mail-verification',{message:'mail verified successfully'})
+    }
+    else{
+      return res.render('404')
+    }
+   })
+}
+
+module.exports={
+    register,
+    verifyMail
+}

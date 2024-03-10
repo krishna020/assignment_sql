@@ -5,6 +5,7 @@ const express=require('express')
 const cors=require('cors')
 const bodyParser=require('body-parser')
 const userRouter=require('../src/routes/userRoute')
+const webRouter=require('../src/routes/webRoute')
 
 const app=express();
 
@@ -13,7 +14,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended:true}))
 app.use(cors())
 app.use('/api/v1/users', userRouter)
-
+app.use('/api/v1/users', webRouter)
 // error handling 
 app.use((err, req,res, next)=>
 {

@@ -26,8 +26,10 @@ const upload=multer({
 })
 
 const {signUpValidation} =require('../helpers/validation')
-const userController=require('../controllers/userController')
+const {register}=require('../controllers/userController')
 
-router.post('/register',upload.single('profilePic'),signUpValidation,userController)
+//router.post('/register',upload.single('profilePic'),signUpValidation,userController)
+router.post('/register', upload.single('profilePic'), signUpValidation, register);
+
 
 module.exports=router;
