@@ -27,14 +27,19 @@ const upload=multer({
 })
 
 const {signUpValidation, loginValidation, forgetValidation,updateProfile} =require('../helpers/validation')
-const {register,login,getUser,forgetPassword}=require('../controllers/userController')
+const {register,login, forgetPassword, activateUser , deactivateUser}=require('../controllers/userController')
 
-//router.post('/register',upload.single('profilePic'),signUpValidation,userController)
+
 router.post('/register', upload.single('profilePic'), signUpValidation, register);
 router.post('/login', loginValidation,login)
 
-router.get('/get-users',isAuthorise,getUser)
+
 router.post('/reset-password',forgetValidation,forgetPassword)
 router.post('/update-profile'),upload.single('profilePic',updateProfile,isAuthorise,updateProfile);
+// Endpoint for activating a user
+router.post('/activate/:id',isAuthorise, activateUser);
+
+// Endpoint for deactivating a user
+router.post('/deactivate/:id',isAuthorise, deactivateUser);
 
 module.exports=router;
